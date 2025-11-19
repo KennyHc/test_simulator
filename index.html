@@ -3,25 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ML II Mastery Quiz - Dark Mode</title>
+    <title>Data Science Mastery Quiz</title>
     <style>
         :root {
-            --bg-body: #0f172a;       /* Deep Slate */
-            --bg-card: #1e293b;       /* Slate 800 */
-            --text-main: #f1f5f9;     /* Slate 100 */
-            --text-muted: #94a3b8;    /* Slate 400 */
-            
-            --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); /* Blue to Purple */
-            --progress-gradient: linear-gradient(90deg, #06b6d4 0%, #3b82f6 50%, #8b5cf6 100%); /* Cyan to Purple */
-            
+            --bg-body: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            --progress-gradient: linear-gradient(90deg, #06b6d4 0%, #3b82f6 50%, #8b5cf6 100%);
             --success-bg: #064e3b;
             --success-border: #10b981;
             --success-text: #d1fae5;
-            
             --error-bg: #450a0a;
             --error-border: #ef4444;
             --error-text: #fee2e2;
-
             --option-bg: #334155;
             --option-hover: #475569;
         }
@@ -40,7 +36,7 @@
 
         .container {
             width: 100%;
-            max-width: 750px;
+            max-width: 800px;
             background: var(--bg-card);
             padding: 40px;
             border-radius: 24px;
@@ -50,212 +46,105 @@
             margin: 20px;
         }
 
-        /* Header & Progress */
-        header {
-            margin-bottom: 30px;
-            text-align: center;
-        }
+        /* Typography */
+        h1 { margin: 0 0 10px 0; font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 2rem; letter-spacing: -0.02em; text-align: center; }
+        .subtitle { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 20px; text-align: center; }
 
-        h1 {
-            margin: 0 0 20px 0;
-            font-weight: 800;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 2rem;
-            letter-spacing: -0.02em;
-        }
-
-        .progress-container {
-            background: #0f172a;
-            height: 12px;
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background: var(--progress-gradient);
-            border-radius: 20px;
-            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
-        }
+        /* Progress Bar */
+        .progress-container { background: #0f172a; height: 12px; border-radius: 20px; overflow: hidden; position: relative; margin-bottom: 20px; }
+        .progress-fill { height: 100%; width: 0%; background: var(--progress-gradient); border-radius: 20px; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 10px rgba(59, 130, 246, 0.5); }
 
         /* Score Tracker */
-        .score-board {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 30px;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
-        .score-pill {
-            padding: 8px 16px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #0f172a;
-            border: 1px solid #334155;
-        }
-
+        .score-board { display: flex; justify-content: center; gap: 20px; margin-bottom: 30px; font-size: 0.9rem; font-weight: 600; }
+        .score-pill { padding: 8px 16px; border-radius: 12px; display: flex; align-items: center; gap: 8px; background: #0f172a; border: 1px solid #334155; transition: transform 0.2s; }
         .score-pill.correct span { color: #10b981; }
         .score-pill.wrong span { color: #ef4444; }
 
-        /* Question Area */
-        .question-card {
-            margin-bottom: 30px;
+        /* Menu Screens */
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 30px; }
+        .menu-card { 
+            background: var(--option-bg); padding: 30px 20px; border-radius: 16px; cursor: pointer; 
+            border: 2px solid transparent; transition: all 0.3s ease; min-height: 120px; 
+            display: flex; flex-direction: column; justify-content: center; text-align: center;
         }
-
-        .question-text {
-            font-size: 1.25rem;
-            line-height: 1.5;
-            margin-bottom: 25px;
-            font-weight: 600;
+        .menu-card:hover { background: var(--option-hover); transform: translateY(-5px); border-color: #3b82f6; }
+        .menu-card h3 { margin: 0 0 10px 0; font-size: 1.3rem; }
+        .menu-card p { color: var(--text-muted); margin: 0; font-size: 0.9rem; }
+        
+        /* Quiz Interface */
+        .question-text { font-size: 1.25rem; line-height: 1.5; margin-bottom: 25px; font-weight: 600; }
+        .options-grid { display: grid; gap: 15px; }
+        
+        .option-btn { 
+            background: var(--option-bg); color: var(--text-main); border: 2px solid transparent; 
+            padding: 16px 20px; border-radius: 16px; text-align: left; font-size: 1rem; cursor: pointer; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; 
         }
+        .option-btn:hover:not(:disabled) { background: var(--option-hover); transform: translateY(-3px) scale(1.01); border-color: #64748b; }
+        .option-btn.correct { background: var(--success-bg); border-color: var(--success-border); color: var(--success-text); }
+        .option-btn.incorrect { background: var(--error-bg); border-color: var(--error-border); color: var(--error-text); opacity: 0.8; }
+        .option-btn:disabled { cursor: default; opacity: 0.7; }
+        
+        /* Feedback & Controls */
+        .feedback { margin-top: 25px; padding: 20px; border-radius: 16px; background: #334155; border-left: 4px solid var(--text-muted); display: none; animation: slideDown 0.4s ease; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .controls { margin-top: 30px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #334155; padding-top: 20px; gap: 10px; }
+        
+        .btn { padding: 12px 24px; border-radius: 12px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: opacity 0.2s; border: none; }
+        .primary-btn { background: var(--accent-gradient); color: white; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .primary-btn:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
+        .primary-btn:disabled { background: #475569; color: #94a3b8; cursor: not-allowed; box-shadow: none; }
+        
+        .secondary-btn { background: transparent; border: 1px solid #475569; color: var(--text-main); }
+        .secondary-btn:hover:not(:disabled) { background: var(--option-hover); }
+        .secondary-btn:disabled { border-color: #334155; color: #475569; cursor: not-allowed; }
 
-        .options-grid {
-            display: grid;
-            gap: 15px;
-        }
-
-        .option-btn {
-            background: var(--option-bg);
-            color: var(--text-main);
-            border: 2px solid transparent;
-            padding: 16px 20px;
-            border-radius: 16px;
-            text-align: left;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-        }
-
-        .option-btn:hover:not(:disabled) {
-            background: var(--option-hover);
-            transform: translateY(-3px) scale(1.01);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-            border-color: #64748b;
-        }
-
-        .option-btn:active:not(:disabled) {
-            transform: translateY(-1px);
-        }
-
-        .option-btn.correct {
-            background: var(--success-bg);
-            border-color: var(--success-border);
-            color: var(--success-text);
-            box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
-        }
-
-        .option-btn.incorrect {
-            background: var(--error-bg);
-            border-color: var(--error-border);
-            color: var(--error-text);
-            opacity: 0.8;
-        }
-
-        .option-btn:disabled {
-            cursor: default;
-        }
-
-        /* Feedback Section */
-        .feedback {
-            margin-top: 25px;
-            padding: 20px;
-            border-radius: 16px;
-            background: #334155;
-            border-left: 4px solid var(--text-muted);
-            display: none;
-            animation: slideDown 0.4s ease;
-        }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Footer Controls */
-        .controls {
-            margin-top: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid #334155;
-            padding-top: 20px;
-        }
-
-        .q-count {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .primary-btn {
-            background: var(--accent-gradient);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: opacity 0.2s;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        .primary-btn:hover:not(:disabled) {
-            opacity: 0.9;
-            transform: translateY(-1px);
-        }
-
-        .primary-btn:disabled {
-            background: #475569;
-            color: #94a3b8;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-
-        /* Results Screen */
-        .result-screen {
-            text-align: center;
-            display: none;
-            padding: 20px;
-        }
-
-        .final-score {
-            font-size: 4rem;
-            font-weight: 900;
-            margin: 20px 0;
-            background: var(--progress-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .score-message {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            margin-bottom: 30px;
-        }
-
+        /* Results */
+        .result-content { text-align: center; padding: 20px; }
+        .final-score { font-size: 4rem; font-weight: 900; margin: 20px 0; background: var(--progress-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        /* Utilities */
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div id="quiz-screen">
+    
+    <div id="main-menu" class="screen">
+        <h1>Select Topic</h1>
+        <p class="subtitle">Choose a main subject to start.</p>
+        <div class="menu-grid">
+            <div class="menu-card" onclick="showSubMenu('ml2')">
+                <h3>Machine Learning II</h3>
+                <p>Association, Trees, Ensembles, Bayes, KNN</p>
+            </div>
+            <div class="menu-card" onclick="showSubMenu('mlops')">
+                <h3>ML Operations (MLOps)</h3>
+                <p>Deployment, Monitoring, Pipelines, GenAI</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="sub-menu" class="screen hidden">
+        <h1 id="sub-menu-title">Topic Details</h1>
+        <p class="subtitle">Select a specific module to test.</p>
+        
+        <div class="menu-grid" id="sub-menu-grid">
+            </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <button class="btn secondary-btn" onclick="goBackToMain()">← Back to Topics</button>
+        </div>
+    </div>
+
+    <div id="quiz-screen" class="screen hidden">
         <header>
-            <h1>ML II Mastery Quiz</h1>
+            <h1 id="quiz-title">Quiz</h1>
             <div class="progress-container">
                 <div class="progress-fill" id="progress"></div>
             </div>
-            
             <div class="score-board">
                 <div class="score-pill correct">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
@@ -269,329 +158,362 @@
         </header>
 
         <div class="question-card">
-            <div class="question-text" id="question-text">Question text goes here...</div>
-            <div class="options-grid" id="options-container">
-                </div>
+            <div class="question-text" id="question-text">Question text...</div>
+            <div class="options-grid" id="options-container"></div>
         </div>
 
         <div class="feedback" id="feedback"></div>
 
         <div class="controls">
-            <span class="q-count" id="question-number">Question 1 of 20</span>
-            <button id="next-btn" class="primary-btn" onclick="nextQuestion()" disabled>Next Question</button>
+            <button id="prev-btn" class="btn secondary-btn" onclick="prevQuestion()">Previous</button>
+            <span style="color: var(--text-muted); font-size: 0.9rem;" id="question-number">1/20</span>
+            <button id="next-btn" class="btn primary-btn" onclick="nextQuestion()" disabled>Next Question</button>
         </div>
     </div>
 
-    <div id="result-screen" class="result-screen">
-        <h1>Quiz Complete!</h1>
-        <p style="color: var(--text-muted);">You scored</p>
-        <div class="final-score" id="final-score-display">0/20</div>
-        <div class="score-board" style="margin-bottom: 10px;">
-             <div class="score-pill correct"><span id="final-correct">0</span> Correct</div>
-             <div class="score-pill wrong"><span id="final-wrong">0</span> Wrong</div>
+    <div id="result-screen" class="screen hidden">
+        <div class="result-content">
+            <h1>Quiz Complete!</h1>
+            <p style="color: var(--text-muted);">You scored</p>
+            <div class="final-score" id="final-score-display">0/20</div>
+            <div class="score-board">
+                 <div class="score-pill correct"><span id="final-correct">0</span> Correct</div>
+                 <div class="score-pill wrong"><span id="final-wrong">0</span> Wrong</div>
+            </div>
+            <p id="score-message" style="font-size: 1.2rem; margin-bottom: 30px; color: var(--text-main);"></p>
+            <button class="btn primary-btn" onclick="clearAndRestart()">Choose Another Topic</button>
         </div>
-        <p class="score-message" id="score-message">Performance Message</p>
-        <button class="primary-btn" onclick="restartQuiz()">Retake Quiz</button>
     </div>
 </div>
 
 <script>
-    const questions = [
-        {
-            q: "In Association Analysis, what does the 'Apriori Principle' state?",
-            options: [
-                "If an itemset is infrequent, its subsets must be frequent.",
-                "If an itemset is frequent, all its subsets must also be frequent.",
-                "The confidence of a rule is always greater than its support.",
-                "High lift implies low confidence."
-            ],
-            correct: 1,
-            explanation: "The Apriori Principle states that if an itemset is frequent, then all of its subsets must also be frequent, which allows for pruning the search space."
-        },
-        {
-            q: "Which metric in Association Analysis measures the strength of a rule independent of the consequent's popularity?",
-            options: ["Support", "Confidence", "Lift", "Frequency"],
-            correct: 2,
-            explanation: "Lift compares the rule's confidence to the expected confidence if the antecedent and consequent were independent."
-        },
-        {
-            q: "In Decision Trees, which metric is used by the CART algorithm to measure node impurity?",
-            options: ["Entropy", "Information Gain", "Gini Index", "Root Mean Square Error"],
-            correct: 2,
-            explanation: "CART (Classification and Regression Trees) uses the Gini Index to measure impurity. ID3/C4.5 use Entropy."
-        },
-        {
-            q: "What is the primary purpose of 'Pruning' in Decision Trees?",
-            options: [
-                "To increase the bias of the model.",
-                "To reduce the variance and prevent overfitting.",
-                "To increase the number of terminal nodes.",
-                "To calculate the Information Gain."
-            ],
-            correct: 1,
-            explanation: "Pruning removes branches that provide little power to classify instances, thereby reducing complexity and high variance (overfitting)."
-        },
-        {
-            q: "Which ensemble method focuses primarily on reducing Bias by fitting models sequentially on residuals?",
-            options: ["Bagging", "Random Forest", "Bootstrapping", "Boosting"],
-            correct: 3,
-            explanation: "Boosting trains models sequentially, where each new model attempts to correct the errors (residuals) of the previous ones."
-        },
-        {
-            q: "How does Random Forest differ from standard Bagging?",
-            options: [
-                "It uses the entire dataset for every tree.",
-                "It restricts the number of features available at each split.",
-                "It uses a different cost function.",
-                "It allows dependency between trees."
-            ],
-            correct: 1,
-            explanation: "Random Forest de-correlates trees by forcing the algorithm to choose from a random subset of features at each split."
-        },
-        {
-            q: "In the context of Bagging, what is the 'Out of Bag' (OOB) dataset?",
-            options: [
-                "The data used to train the model.",
-                "The ~1/3 of samples not chosen in a bootstrap sample.",
-                "The test set provided by the client.",
-                "The data with missing values."
-            ],
-            correct: 1,
-            explanation: "Because bootstrapping samples with replacement, approximately 1/3 of data is left out (OOB) and can be used for validation."
-        },
-        {
-            q: "What is the fundamental assumption of the Naïve Bayes classifier?",
-            options: [
-                "All features are dependent on each other.",
-                "Features are independent given the class.",
-                "The prior probability is always 0.5.",
-                "The data must be normally distributed."
-            ],
-            correct: 1,
-            explanation: "It is called 'Naïve' because it assumes that the presence of a particular feature is unrelated to the presence of any other feature."
-        },
-        {
-            q: "Why is 'Laplace Smoothing' (Add-one) used in Naïve Bayes?",
-            options: [
-                "To handle continuous variables.",
-                "To avoid zero probabilities for unseen features.",
-                "To reduce the computational complexity.",
-                "To increase the weight of prior probabilities."
-            ],
-            correct: 1,
-            explanation: "Laplace smoothing ensures that if a word/feature was not seen in training, the probability calculation doesn't become zero."
-        },
-        {
-            q: "Which of the following is a characteristic of 'Lazy Learning' algorithms like KNN?",
-            options: [
-                "They build an explicit model during the training phase.",
-                "They are computationally expensive during the training phase.",
-                "They defer computation until a classification query is made.",
-                "They are insensitive to outliers."
-            ],
-            correct: 2,
-            explanation: "KNN is lazy because it stores the training data and performs calculations only when a prediction is requested."
-        },
-        {
-            q: "In KNN, what is the effect of choosing a very small value for k (e.g., k=1)?",
-            options: [
-                "High Bias and Low Variance.",
-                "Low Bias and High Variance (Overfitting).",
-                "The model becomes a linear classifier.",
-                "The model ignores local data structure."
-            ],
-            correct: 1,
-            explanation: "A small k captures noise in the training data, creating a complex decision boundary that overfits (High Variance)."
-        },
-        {
-            q: "Why is feature scaling (normalization) critical in KNN?",
-            options: [
-                "It speeds up the 'lazy' learning process.",
-                "KNN relies on distance calculations, sensitive to magnitude.",
-                "It converts categorical data to numeric.",
-                "It is required to calculate probability."
-            ],
-            correct: 1,
-            explanation: "Without scaling, features with larger numeric ranges would dominate the distance metric, skewing results."
-        },
-        {
-            q: "Which distance measure is generally best for high-dimensional sparse data (like text)?",
-            options: ["Euclidean Distance", "Manhattan Distance", "Cosine Distance", "Hamming Distance"],
-            correct: 2,
-            explanation: "Cosine distance measures the angle between vectors rather than magnitude, making it ideal for sparse text vectors."
-        },
-        {
-            q: "In Association Rules, if Support(A, B) = 0.2 and Support(A) = 0.5, what is the Confidence(A -> B)?",
-            options: ["0.1", "0.4", "0.7", "2.5"],
-            correct: 1,
-            explanation: "Confidence = Support(A, B) / Support(A) = 0.2 / 0.5 = 0.4."
-        },
-        {
-            q: "Which algorithm focuses on finding the hyperplane that separates classes?",
-            options: ["SVM", "Decision Trees", "Naïve Bayes", "Apriori"],
-            correct: 0,
-            explanation: "Support Vector Machines (SVM) aim to find the optimal hyperplane that separates classes with the maximum margin."
-        },
-        {
-            q: "Which ensemble technique allows for parallel processing because trees are built independently?",
-            options: ["Gradient Boosting", "Bagging / Random Forest", "AdaBoost", "XGBoost"],
-            correct: 1,
-            explanation: "In Bagging/RF, trees are trained on bootstrap samples independently, whereas Boosting is sequential and cannot be easily parallelized."
-        },
-        {
-            q: "Which model is best when 'model intelligibility' (interpretability) is important?",
-            options: ["Neural Networks", "Boosting", "Decision Trees", "KNN"],
-            correct: 2,
-            explanation: "Decision Trees are highly interpretable as they provide clear if-then rules that mimic human decision-making."
-        },
-        {
-            q: "What is the 'Curse of Dimensionality' in the context of KNN?",
-            options: [
-                "KNN becomes too fast with many features.",
-                "Distance measures become less meaningful as features increase.",
-                "The value of k must equal the number of dimensions.",
-                "It refers to the difficulty of visualizing the data."
-            ],
-            correct: 1,
-            explanation: "In high dimensions, data becomes sparse and all points tend to be equidistant, making nearest neighbor search ineffective."
-        },
-        {
-            q: "In a Decision Tree, what does a 'Leaf Node' represent?",
-            options: ["A decision rule.", "The root of the tree.", "A final class assignment or value.", "A splitting feature."],
-            correct: 2,
-            explanation: "Leaf nodes are the terminal nodes of the tree where the final prediction (class or regression value) is made."
-        },
-        {
-            q: "If a specific association rule has a Lift of 1, what does this imply?",
-            options: [
-                "Strong positive correlation.",
-                "Strong negative correlation.",
-                "The antecedent and consequent are independent.",
-                "The rule is invalid."
-            ],
-            correct: 2,
-            explanation: "Lift = 1 implies that the probability of occurrence of the antecedent and consequent together is exactly the same as if they were independent events."
+    // --- DATA ---
+    const fullData = {
+      "ml2": {
+        "FUNDAMENTALS_AND_CONCEPTS": [
+          { "q": "In Association Analysis, what does the 'Apriori Principle' state?", "options": ["If an itemset is infrequent, its subsets must be frequent.", "If an itemset is frequent, all its subsets must also be frequent.", "The confidence of a rule is always greater than its support.", "High lift implies low confidence."], "correct": 1, "explanation": "The Apriori Principle states that if an itemset is frequent, then all of its subsets must also be frequent, which allows for pruning the search space." },
+          { "q": "Which metric in Association Analysis measures the strength of a rule independent of the consequent's popularity?", "options": ["Support", "Confidence", "Lift", "Frequency"], "correct": 2, "explanation": "Lift compares the rule's confidence to the expected confidence if the antecedent and consequent were independent." },
+          { "q": "If a specific association rule has a Lift of 1, what does this imply?", "options": ["Strong positive correlation.", "Strong negative correlation.", "The antecedent and consequent are independent.", "The rule is invalid."], "correct": 2, "explanation": "Lift = 1 implies that the probability of occurrence of the antecedent and consequent together is exactly the same as if they were independent events." },
+          { "q": "In Association Rules, if Support(A, B) = 0.2 and Support(A) = 0.5, what is the Confidence(A -> B)?", "options": ["0.1", "0.4", "0.7", "2.5"], "correct": 1, "explanation": "Confidence = Support(A, B) / Support(A) = 0.2 / 0.5 = 0.4." }
+        ],
+        "DECISION_TREES_AND_ENSEMBLES": [
+          { "q": "In Decision Trees, which metric is used by the CART algorithm to measure node impurity?", "options": ["Entropy", "Information Gain", "Gini Index", "Root Mean Square Error"], "correct": 2, "explanation": "CART (Classification and Regression Trees) uses the Gini Index to measure impurity. ID3/C4.5 use Entropy." },
+          { "q": "What is the primary purpose of 'Pruning' in Decision Trees?", "options": ["To increase the bias of the model.", "To reduce the variance and prevent overfitting.", "To increase the number of terminal nodes.", "To calculate the Information Gain."], "correct": 1, "explanation": "Pruning removes branches that provide little power to classify instances, thereby reducing complexity and high variance (overfitting)." },
+          { "q": "Which ensemble method focuses primarily on reducing Bias by fitting models sequentially on residuals?", "options": ["Bagging", "Random Forest", "Bootstrapping", "Boosting"], "correct": 3, "explanation": "Boosting trains models sequentially, where each new model attempts to correct the errors (residuals) of the previous ones." },
+          { "q": "How does Random Forest differ from standard Bagging?", "options": ["It uses the entire dataset for every tree.", "It restricts the number of features available at each split.", "It uses a different cost function.", "It allows dependency between trees."], "correct": 1, "explanation": "Random Forest de-correlates trees by forcing the algorithm to choose from a random subset of features at each split." },
+          { "q": "In the context of Bagging, what is the 'Out of Bag' (OOB) dataset?", "options": ["The data used to train the model.", "The ~1/3 of samples not chosen in a bootstrap sample.", "The test set provided by the client.", "The data with missing values."], "correct": 1, "explanation": "Because bootstrapping samples with replacement, approximately 1/3 of data is left out (OOB) and can be used for validation." },
+          { "q": "Which ensemble technique allows for parallel processing because trees are built independently?", "options": ["Gradient Boosting", "Bagging / Random Forest", "AdaBoost", "XGBoost"], "correct": 1, "explanation": "In Bagging/RF, trees are trained on bootstrap samples independently, whereas Boosting is sequential and cannot be easily parallelized." },
+          { "q": "In a Decision Tree, what does a 'Leaf Node' represent?", "options": ["A decision rule.", "The root of the tree.", "A final class assignment or value.", "A splitting feature."], "correct": 2, "explanation": "Leaf nodes are the terminal nodes of the tree where the final prediction (class or regression value) is made." }
+        ],
+        "PROBABILISTIC_AND_LAZY_LEARNING": [
+          { "q": "What is the fundamental assumption of the Naïve Bayes classifier?", "options": ["All features are dependent on each other.", "Features are independent given the class.", "The prior probability is always 0.5.", "The data must be normally distributed."], "correct": 1, "explanation": "It is called 'Naïve' because it assumes that the presence of a particular feature is unrelated to the presence of any other feature." },
+          { "q": "Why is 'Laplace Smoothing' (Add-one) used in Naïve Bayes?", "options": ["To handle continuous variables.", "To avoid zero probabilities for unseen features.", "To reduce the computational complexity.", "To increase the weight of prior probabilities."], "correct": 1, "explanation": "Laplace smoothing ensures that if a word/feature was not seen in training, the probability calculation doesn't become zero." },
+          { "q": "Which of the following is a characteristic of 'Lazy Learning' algorithms like KNN?", "options": ["They build an explicit model during the training phase.", "They are computationally expensive during the training phase.", "They defer computation until a classification query is made.", "They are insensitive to outliers."], "correct": 2, "explanation": "KNN is lazy because it stores the training data and performs calculations only when a prediction is requested." },
+          { "q": "In KNN, what is the effect of choosing a very small value for k (e.g., k=1)?", "options": ["High Bias and Low Variance.", "Low Bias and High Variance (Overfitting).", "The model becomes a linear classifier.", "The model ignores local data structure."], "correct": 1, "explanation": "A small k captures noise in the training data, creating a complex decision boundary that overfits (High Variance)." },
+          { "q": "Why is feature scaling (normalization) critical in KNN?", "options": ["It speeds up the 'lazy' learning process.", "KNN relies on distance calculations, sensitive to magnitude.", "It converts categorical data to numeric.", "It is required to calculate probability."], "correct": 1, "explanation": "Without scaling, features with larger numeric ranges would dominate the distance metric, skewing results." },
+          { "q": "Which distance measure is generally best for high-dimensional sparse data (like text)?", "options": ["Euclidean Distance", "Manhattan Distance", "Cosine Distance", "Hamming Distance"], "correct": 2, "explanation": "Cosine distance measures the angle between vectors rather than magnitude, making it ideal for sparse text vectors." },
+          { "q": "Which algorithm focuses on finding the hyperplane that separates classes?", "options": ["SVM", "Decision Trees", "Naïve Bayes", "Apriori"], "correct": 0, "explanation": "Support Vector Machines (SVM) aim to find the optimal hyperplane that separates classes with the maximum margin." },
+          { "q": "What is the 'Curse of Dimensionality' in the context of KNN?", "options": ["KNN becomes too fast with many features.", "Distance measures become less meaningful as features increase.", "The value of k must equal the number of dimensions.", "It refers to the difficulty of visualizing the data."], "correct": 1, "explanation": "In high dimensions, data becomes sparse and all points tend to be equidistant, making nearest neighbor search ineffective." }
+        ]
+      },
+      "mlops": {
+        "DATA_ENGINEERING_AND_PREPARATION": [
+          { "q": "Which data storage format is columnar, binary, compressed, and generally most efficient for large-scale analytical queries?", "options": ["CSV", "JSON", "Parquet", "XML"], "correct": 2, "explanation": "Parquet is a columnar storage format that is highly optimized for analytics, offering better compression and query performance compared to row-based formats like CSV or JSON." },
+          { "q": "In the context of data processing, what distinguishes ELT (Extract, Load, Transform) from the traditional ETL (Extract, Transform, Load) approach?", "options": ["ELT processes data before saving it to the warehouse.", "ELT performs transformations within the target data warehouse, leveraging its compute power.", "ELT is primarily used for small, on-premise datasets.", "ELT requires data to be structured before ingestion."], "correct": 1, "explanation": "ELT loads raw data directly into the destination (like a Data Warehouse) and transforms it there, offering greater flexibility and scalability for modern cloud architectures." },
+          { "q": "Which sampling method ensures that specific subgroups (e.g., age groups or regions) are proportionally represented in the training dataset?", "options": ["Simple Random Sampling", "Systematic Sampling", "Stratified Sampling", "Convenience Sampling"], "correct": 2, "explanation": "Stratified sampling divides the population into subgroups (strata) and samples from each to ensure the training set accurately reflects the population's diversity." },
+          { "q": "When dealing with a categorical feature like 'City' (e.g., Paris, Madrid, Berlin) that has no inherent order, which encoding technique is most appropriate to avoid misleading the model?", "options": ["Ordinal Encoding", "One-Hot Encoding", "Label Encoding", "Frequency Encoding"], "correct": 1, "explanation": "One-hot encoding creates independent binary columns for each category. Using ordinal/label encoding (1, 2, 3) could falsely imply a mathematical relationship (e.g., Madrid > Paris) where none exists." },
+          { "q": "What is 'Data Leakage' in machine learning?", "options": ["When data is lost during the ETL process.", "When the model is trained using features that contain information from the future or the target label that won't be available at inference time.", "When sensitive user data is exposed to the public.", "When the training dataset is too small."], "correct": 1, "explanation": "Data leakage occurs when the model has access to information during training that it would not have in production (e.g., using 'discharge date' to predict 'hospital length of stay'), leading to inflated performance metrics." }
+        ],
+        "MODEL_DEPLOYMENT_AND_SCALING": [
+          { "q": "Which deployment strategy involves running a new model version in parallel with the existing one to process real traffic without showing the results to users?", "options": ["Canary Deployment", "Blue-Green Deployment", "Shadow Deployment", "A/B Testing"], "correct": 2, "explanation": "Shadow deployment processes production traffic with the new model silently (logging predictions for comparison) to verify performance without risking user experience." },
+          { "q": "When comparing Cloud AI vs. Edge AI, what is a primary advantage of Edge AI?", "options": ["Unlimited computing power", "Centralized data storage", "Lower latency and offline capability", "Easier vertical scaling"], "correct": 2, "explanation": "Edge AI runs computation locally on the device, eliminating network round-trips (low latency) and allowing functionality without an internet connection." },
+          { "q": "What is the main difference between Horizontal Scaling and Vertical Scaling?", "options": ["Horizontal scaling adds more machine instances; Vertical scaling adds power (CPU/RAM) to an existing instance.", "Horizontal scaling increases CPU power; Vertical scaling adds more servers.", "Horizontal scaling is for databases; Vertical scaling is for APIs.", "There is no difference."], "correct": 0, "explanation": "Horizontal scaling (scaling out) involves adding more nodes to a pool, while vertical scaling (scaling up) involves upgrading the hardware resources of a single node." },
+          { "q": "In the context of FastAPI, which HTTP method is standard for sending data (like a JSON payload) to a model to get a prediction?", "options": ["GET", "POST", "DELETE", "PUT"], "correct": 1, "explanation": "POST is used to send data to the server to create a resource or, in ML context, to process an input payload and return a prediction." },
+          { "q": "Which serving pattern is best suited for generating weekly demand forecasts for a retail inventory system?", "options": ["Online Prediction (HTTP)", "Streaming Prediction", "Batch Prediction", "Edge Deployment"], "correct": 2, "explanation": "Batch prediction is ideal for high-volume, non-urgent processing where predictions can be generated on a schedule (e.g., nightly or weekly) rather than in real-time." }
+        ],
+        "MONITORING_AND_AUTOMATION": [
+          { "q": "What is 'Data Drift'?", "options": ["When the relationship between input features and the target variable changes.", "When the distribution of input data in production diverges from the distribution of training data.", "When the model code is updated.", "When the database schema changes."], "correct": 1, "explanation": "Data drift refers to a statistical change in the input data properties (e.g., user demographics change), which can degrade model performance even if the underlying concept hasn't changed." },
+          { "q": "Which term describes the scenario where the relationship between inputs and the target variable changes (e.g., housing prices rise due to inflation)?", "options": ["Data Drift", "Concept Drift", "Schema Drift", "System Drift"], "correct": 1, "explanation": "Concept drift occurs when the statistical properties of the target variable change, meaning the pattern the model learned is no longer valid." },
+          { "q": "In an MLOps CI/CD pipeline, what does 'CT' stand for, and why is it unique to ML?", "options": ["Continuous Testing; it ensures code quality.", "Continuous Training; it automates model retraining when data drifts or performance drops.", "Continuous Tracking; it monitors server uptime.", "Continuous Transformation; it cleans data in real-time."], "correct": 1, "explanation": "CT (Continuous Training) is specific to MLOps and refers to the automatic retraining and serving of models to adapt to data changes over time." },
+          { "q": "What is the primary purpose of using a tool like 'flake8' in a CI pipeline?", "options": ["To train the model faster.", "To check code for syntax errors, stylistic issues, and PEP 8 compliance (Linting).", "To deploy the model to Kubernetes.", "To generate unit tests automatically."], "correct": 1, "explanation": "Flake8 is a linting tool that analyzes source code to flag programming errors, bugs, stylistic errors, and suspicious constructs." },
+          { "q": "What is the role of a 'Load Balancer' in a scalable serving architecture?", "options": ["To train the model on multiple GPUs.", "To store model artifacts.", "To distribute incoming API traffic across multiple server instances to ensure availability and performance.", "To monitor data drift."], "correct": 2, "explanation": "A load balancer sits in front of server instances and routes requests to healthy instances, enabling horizontal scaling and fault tolerance." }
+        ],
+        "RESPONSIBLE_AI_AND_EXPLAINABILITY": [
+          { "q": "What is the difference between Global and Local explainability?", "options": ["Global explains individual predictions; Local explains the whole model.", "Global explains the overall model behavior; Local explains a specific prediction.", "Global is for text; Local is for images.", "There is no difference."], "correct": 1, "explanation": "Global explainability (e.g., feature importance) helps understand the model as a whole, while Local explainability (e.g., SHAP/LIME) explains why a specific input resulted in a specific output." },
+          { "q": "Which technique approximates a complex 'black box' model with a simpler, interpretable model (like a linear model) around a specific prediction?", "options": ["Deep Learning", "LIME (Local Interpretable Model-agnostic Explanations)", "Grid Search", "Backpropagation"], "correct": 1, "explanation": "LIME perturbs the input of a single sample to build a simple, interpretable local model that approximates the complex model's behavior in that immediate vicinity." },
+          { "q": "What is 'Automation Bias'?", "options": ["The tendency to automate all tasks.", "The tendency for humans to over-rely on automated systems, assuming they are always correct.", "The bias introduced by automated data collection.", "The preference for robots over humans."], "correct": 1, "explanation": "Automation bias is a cognitive bias where humans favor suggestions from automated decision-making systems and ignore contradictory information made without automation." },
+          { "q": "In the context of LLMs, what is 'Hallucination'?", "options": ["The model refusing to answer.", "The model generating plausible-sounding but factually incorrect or nonsensical information.", "The model taking too long to respond.", "The model translating text incorrectly."], "correct": 1, "explanation": "Hallucination refers to LLMs generating text that is confident and fluent but completely fabricated or factually wrong." },
+          { "q": "What is 'Prompt Injection'?", "options": ["A technique to train LLMs faster.", "An adversarial attack where malicious inputs override the model's original instructions to force unintended behavior.", "Injecting data into a database.", "A method for RAG."], "correct": 1, "explanation": "Prompt injection involves crafting inputs that trick the LLM into ignoring its system prompt/safety guardrails and executing the user's malicious command." }
+        ],
+        "LLMS_AND_GENAI": [
+          { "q": "What does RAG stand for in Generative AI?", "options": ["Rapid Automated Generation", "Retrieval Augmented Generation", "Recurrent Attention Gate", "Random Access Generator"], "correct": 1, "explanation": "RAG (Retrieval Augmented Generation) combines an LLM with a retrieval system to fetch relevant external data and insert it into the context window to improve accuracy." },
+          { "q": "Which database technology is essential for RAG to store and search semantic embeddings?", "options": ["Relational Database (SQL)", "Key-Value Store", "Vector Database", "Graph Database"], "correct": 2, "explanation": "Vector databases are optimized to store high-dimensional vectors (embeddings) and perform similarity searches (like finding text semantically similar to a query)." },
+          { "q": "In the Transformer architecture, what mechanism allows the model to weigh the importance of different words in a sentence relative to each other?", "options": ["Convolution", "Self-Attention", "MaxPooling", "Recurrence"], "correct": 1, "explanation": "Self-attention allows the model to look at other positions in the input sequence to compute a representation of the sequence, capturing context and relationships between words." },
+          { "q": "What is the 'Reversal Curse' observed in LLMs?", "options": ["Models can translate English to Spanish but not vice versa.", "Models trained on 'A is B' often fail to deduce 'B is A' automatically.", "Models generate text backwards.", "Models prefer the end of a sentence over the beginning."], "correct": 1, "explanation": "The reversal curse refers to the limitation where LLMs trained on facts like 'Tom Cruise's mother is Mary Lee Pfeiffer' often cannot answer 'Who is Mary Lee Pfeiffer's son?'." },
+          { "q": "Which component of an LLM application is responsible for breaking large documents into smaller pieces for embedding?", "options": ["The Vector Store", "The Embedder", "The Chunker (or Splitter)", "The Prompt Engineer"], "correct": 2, "explanation": "Chunking breaks large texts into manageable segments that fit within the model's context window and allow for precise retrieval."
+          }
+        ],
+        "MLOPS_FUNDAMENTALS": [
+          { "q": "What is the primary goal of 'Experiment Tracking' (e.g., using MLflow)?", "options": ["To deploy models to production.", "To automate data cleaning.", "To log parameters, metrics, and artifacts to ensure reproducibility and comparison of different runs.", "To monitor server health."], "correct": 2, "explanation": "Experiment tracking systems record all details of model training runs (hyperparameters, accuracy, model files) so that the best model can be identified and reproduced." },
+          { "q": "Why are containers (e.g., Docker) preferred over Virtual Machines for deploying ML models?", "options": ["They are heavier and include a full OS.", "They are lightweight, share the host OS kernel, and ensure the 'it works on my machine' consistency.", "They are slower to start up.", "They require a specific hardware configuration."], "correct": 1, "explanation": "Containers package code and dependencies without the overhead of a full Guest OS, making them faster, lighter, and more portable than VMs." },
+          { "q": "What is the 'Store' component in MLflow responsible for?", "options": ["Storing the actual large model files (Artifact Store) and metadata (Backend Store).", "Selling the models to customers.", "Caching predictions.", "Storing the training data only."], "correct": 0, "explanation": "MLflow uses a Backend Store (DB) for metadata/metrics and an Artifact Store (S3/File system) for heavy files like the model binary itself." },
+          { "q": "In the context of MLOps, what does 'Versioning' apply to?", "options": ["Code only.", "Data only.", "Models only.", "Code, Data, and Models."], "correct": 3, "explanation": "True reproducibility in MLOps requires versioning the code (Git), the data (DVC/LakeFS), and the model artifacts (MLflow/Model Registry)." },
+          { "q": "Which technique is used to handle high traffic by putting a queue (e.g., Kafka) between the input stream and the prediction service?", "options": ["Synchronous HTTP", "Asynchronous / Decoupled Architecture", "Batch Processing", "Vertical Scaling"], "correct": 1, "explanation": "Using a message queue/stream (decoupling) allows the system to buffer requests during spikes and process them asynchronously, preventing the prediction service from being overwhelmed." }
+        ]
+      }
+    };
+
+    // --- STATE MANAGEMENT ---
+    const initialState = {
+        active: false,
+        topic: null,
+        subCategory: null,
+        subCategoryTitle: null,
+        currentQuestionIndex: 0,
+        isFinished: false,
+        answers: [] 
+    };
+
+    let quizState = JSON.parse(JSON.stringify(initialState));
+
+    function loadState() {
+        const saved = localStorage.getItem('ml_quiz_state_v2');
+        if (saved) {
+            try {
+                quizState = JSON.parse(saved);
+                if (quizState.active) {
+                    resumeQuiz();
+                }
+            } catch (e) {
+                console.error("State Error", e);
+                localStorage.removeItem('ml_quiz_state_v2');
+            }
         }
-    ];
+    }
 
-    let currentQuestion = 0;
-    let correctCount = 0;
-    let wrongCount = 0;
-    let answered = false;
+    function saveState() {
+        localStorage.setItem('ml_quiz_state_v2', JSON.stringify(quizState));
+    }
 
-    function initQuiz() {
-        correctCount = 0;
-        wrongCount = 0;
-        currentQuestion = 0;
+    function clearState() {
+        localStorage.removeItem('ml_quiz_state_v2');
+        quizState = JSON.parse(JSON.stringify(initialState));
+    }
+
+    // --- QUIZ LOGIC ---
+    let currentQuestions = [];
+
+    // 1. Navigation Helper: Hides all screens, shows target
+    function showScreen(screenId) {
+        ['main-menu', 'sub-menu', 'quiz-screen', 'result-screen'].forEach(id => {
+            document.getElementById(id).classList.add('hidden');
+        });
+        document.getElementById(screenId).classList.remove('hidden');
+    }
+
+    // 2. Menu Logic
+    function showSubMenu(mainTopic) {
+        showScreen('sub-menu');
+        const title = mainTopic === 'ml2' ? 'Machine Learning II' : 'ML Operations';
+        document.getElementById('sub-menu-title').textContent = title;
+        
+        const grid = document.getElementById('sub-menu-grid');
+        grid.innerHTML = '';
+
+        const categories = fullData[mainTopic];
+        for (const [key, questions] of Object.entries(categories)) {
+            const card = document.createElement('div');
+            card.className = 'menu-card';
+            const titleText = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+            
+            card.innerHTML = `<h3>${titleText}</h3><p>${questions.length} Questions</p>`;
+            card.onclick = () => startQuiz(mainTopic, key, titleText);
+            grid.appendChild(card);
+        }
+    }
+
+    function goBackToMain() {
+        clearState(); // Going back cancels current progress
+        showScreen('main-menu');
+    }
+
+    // 3. Initialization
+    function startQuiz(topic, subCat, title) {
+        quizState.active = true;
+        quizState.topic = topic;
+        quizState.subCategory = subCat;
+        quizState.subCategoryTitle = title;
+        quizState.currentQuestionIndex = 0;
+        quizState.isFinished = false;
+        quizState.answers = new Array(fullData[topic][subCat].length).fill(null);
+        
+        saveState();
+        resumeQuiz();
+    }
+
+    function resumeQuiz() {
+        const { topic, subCategory, subCategoryTitle } = quizState;
+        
+        // Safety check if data is somehow missing
+        if (!fullData[topic] || !fullData[topic][subCategory]) {
+            clearState();
+            showScreen('main-menu');
+            return;
+        }
+
+        currentQuestions = fullData[topic][subCategory];
+
+        // If finished, show result immediately
+        if (quizState.isFinished) {
+            showResults();
+            return;
+        }
+
+        document.getElementById('quiz-title').textContent = subCategoryTitle;
+        showScreen('quiz-screen');
         updateScoreDisplay();
         renderQuestion();
-        document.getElementById('result-screen').style.display = 'none';
-        document.getElementById('quiz-screen').style.display = 'block';
+    }
+
+    // 4. Scoring
+    function calculateScore() {
+        let correct = 0;
+        let wrong = 0;
+        quizState.answers.forEach((ans, index) => {
+            if (ans !== null) {
+                if (ans === currentQuestions[index].correct) correct++;
+                else wrong++;
+            }
+        });
+        return { correct, wrong };
     }
 
     function updateScoreDisplay() {
-        document.getElementById('score-correct').textContent = correctCount;
-        document.getElementById('score-wrong').textContent = wrongCount;
+        const { correct, wrong } = calculateScore();
+        document.getElementById('score-correct').textContent = correct;
+        document.getElementById('score-wrong').textContent = wrong;
     }
 
+    // 5. Render
     function renderQuestion() {
-        answered = false;
-        const q = questions[currentQuestion];
+        const index = quizState.currentQuestionIndex;
+        const q = currentQuestions[index];
+        const savedAnswer = quizState.answers[index]; 
+
         document.getElementById('question-text').textContent = q.q;
-        document.getElementById('question-number').textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
+        document.getElementById('question-number').textContent = `${index + 1} / ${currentQuestions.length}`;
         
-        // Update gradient progress
-        const progressPct = ((currentQuestion) / questions.length) * 100;
+        // Progress Bar
+        const progressPct = (index / currentQuestions.length) * 100;
         document.getElementById('progress').style.width = `${progressPct}%`;
 
+        // Options
         const optsContainer = document.getElementById('options-container');
         optsContainer.innerHTML = '';
 
-        q.options.forEach((opt, index) => {
+        q.options.forEach((opt, optIndex) => {
             const btn = document.createElement('button');
             btn.className = 'option-btn';
             btn.textContent = opt;
-            btn.onclick = () => checkAnswer(index, btn);
+            
+            if (savedAnswer !== null) {
+                btn.disabled = true;
+                if (optIndex === q.correct) btn.classList.add('correct');
+                else if (optIndex === savedAnswer) btn.classList.add('incorrect');
+                else btn.style.opacity = '0.5';
+            } else {
+                btn.onclick = () => handleAnswer(optIndex);
+            }
             optsContainer.appendChild(btn);
         });
 
+        // Feedback Area
         const feedbackEl = document.getElementById('feedback');
-        feedbackEl.style.display = 'none';
-        feedbackEl.className = 'feedback';
-        
         const nextBtn = document.getElementById('next-btn');
-        nextBtn.disabled = true;
-        nextBtn.textContent = currentQuestion === questions.length - 1 ? "See Results" : "Next Question";
-    }
-
-    function checkAnswer(selectedIndex, btnElement) {
-        if (answered) return;
-        answered = true;
-
-        const q = questions[currentQuestion];
-        const buttons = document.querySelectorAll('.option-btn');
-        const feedbackEl = document.getElementById('feedback');
         
-        // Disable all buttons
-        buttons.forEach(btn => btn.disabled = true);
-
-        if (selectedIndex === q.correct) {
-            btnElement.classList.add('correct');
-            correctCount++;
-            feedbackEl.style.borderLeftColor = '#10b981';
-            feedbackEl.style.background = '#064e3b';
-            feedbackEl.innerHTML = `<strong style="color:#34d399">Correct!</strong><br>${q.explanation}`;
+        if (savedAnswer !== null) {
+            const isCorrect = savedAnswer === q.correct;
+            feedbackEl.style.display = 'block';
+            feedbackEl.style.borderLeftColor = isCorrect ? '#10b981' : '#ef4444';
+            feedbackEl.style.background = isCorrect ? '#064e3b' : '#450a0a';
+            feedbackEl.innerHTML = `
+                <strong style="color:${isCorrect ? '#34d399' : '#f87171'}">
+                    ${isCorrect ? 'Correct!' : 'Incorrect.'}
+                </strong><br>${q.explanation}`;
+            nextBtn.disabled = false;
         } else {
-            btnElement.classList.add('incorrect');
-            buttons[q.correct].classList.add('correct');
-            wrongCount++;
-            feedbackEl.style.borderLeftColor = '#ef4444';
-            feedbackEl.style.background = '#450a0a';
-            feedbackEl.innerHTML = `<strong style="color:#f87171">Incorrect.</strong><br>${q.explanation}`;
+            feedbackEl.style.display = 'none';
+            nextBtn.disabled = true;
         }
 
+        // Buttons
+        document.getElementById('prev-btn').disabled = (index === 0);
+        nextBtn.textContent = (index === currentQuestions.length - 1) ? "See Results" : "Next Question";
+    }
+
+    function handleAnswer(selectedIndex) {
+        quizState.answers[quizState.currentQuestionIndex] = selectedIndex;
+        saveState();
         updateScoreDisplay();
-        feedbackEl.style.display = 'block';
-        document.getElementById('next-btn').disabled = false;
+        renderQuestion(); // Re-render to show feedback and lock buttons
         
-        // Update progress bar to show "completed" for this question
-        const progressPct = ((currentQuestion + 1) / questions.length) * 100;
+        // Fill bar visually for just completed Q
+        const progressPct = ((quizState.currentQuestionIndex + 1) / currentQuestions.length) * 100;
         document.getElementById('progress').style.width = `${progressPct}%`;
     }
 
     function nextQuestion() {
-        if (currentQuestion < questions.length - 1) {
-            currentQuestion++;
+        if (quizState.currentQuestionIndex < currentQuestions.length - 1) {
+            quizState.currentQuestionIndex++;
+            saveState();
             renderQuestion();
         } else {
-            showResults();
+            finishQuiz();
         }
     }
 
+    function prevQuestion() {
+        if (quizState.currentQuestionIndex > 0) {
+            quizState.currentQuestionIndex--;
+            saveState();
+            renderQuestion();
+        }
+    }
+
+    function finishQuiz() {
+        quizState.isFinished = true;
+        saveState();
+        showResults();
+    }
+
     function showResults() {
-        document.getElementById('quiz-screen').style.display = 'none';
-        document.getElementById('result-screen').style.display = 'block';
+        const { correct, wrong } = calculateScore();
+        const total = currentQuestions.length;
+
+        showScreen('result-screen');
         
-        document.getElementById('final-score-display').textContent = `${correctCount}/${questions.length}`;
-        document.getElementById('final-correct').textContent = correctCount;
-        document.getElementById('final-wrong').textContent = wrongCount;
+        document.getElementById('final-score-display').textContent = `${correct}/${total}`;
+        document.getElementById('final-correct').textContent = correct;
+        document.getElementById('final-wrong').textContent = wrong;
         
         let msg = "";
-        const pct = (correctCount / questions.length) * 100;
-        if (pct >= 90) msg = "🏆 Outstanding! You are a Machine Learning Master.";
-        else if (pct >= 70) msg = "🎉 Great job! You have a solid grasp of the concepts.";
-        else if (pct >= 50) msg = "👍 Good effort. A quick review of the summaries will help.";
-        else msg = "📚 Keep learning! Review the course materials and try again.";
+        const pct = (correct / total) * 100;
+        if (pct >= 90) msg = "🏆 Outstanding! You have mastered this module.";
+        else if (pct >= 70) msg = "🎉 Great job! Solid understanding.";
+        else if (pct >= 50) msg = "👍 Good effort. Review the specific topics to improve.";
+        else msg = "📚 Keep learning! Review the material and try again.";
         
         document.getElementById('score-message').textContent = msg;
     }
 
-    function restartQuiz() {
-        initQuiz();
+    function clearAndRestart() {
+        clearState();
+        showScreen('main-menu');
     }
 
     // Start
-    initQuiz();
+    loadState();
+
 </script>
 
 </body>
